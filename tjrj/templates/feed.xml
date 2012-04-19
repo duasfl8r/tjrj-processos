@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[{{ processo.nome }}]]></title>
+  <link href="{{ processo.url }}/"/>
+  <updated>{{ agora }}</updated>
+  <id>{{ processo.numero }}</id>
+  <author>
+    <name>TJRJ</name>
+  </author>
+
+  {% for movimento in processo.movimentos %}
+  <entry>
+    <title type="html"><![CDATA[{{ movimento.tipo }}]]></title>
+    <updated>{{ movimento.data }}</updated>
+    <id>{{ movimento.data }}{{ movimento.tipo }}</id>
+    <content type="html"><![CDATA[{{ movimento.outros }}]]></content>
+  </entry>
+  {% endfor %}
+</feed>
