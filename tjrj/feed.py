@@ -6,7 +6,6 @@ import datetime
 
 import jinja2
 
-print(os.getcwd())
 env = jinja2.Environment(loader=jinja2.PackageLoader('tjrj', 'templates'))
 
 def gerar(processo):
