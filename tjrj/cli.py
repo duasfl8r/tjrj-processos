@@ -38,7 +38,9 @@ def _get_config(path):
     return config
 
 def run():
-    parser = argparse.ArgumentParser(description='Exibe informações sobre processos jurídicos do  TJRJ')
+    global verbose
+
+    parser = argparse.ArgumentParser(description='Exibe informações sobre processos jurídicos do TJRJ')
     parser.add_argument('-c', '--config', default=os.path.expanduser('~/.tjrj-processos'),
             help='Arquivo de configuração com os processos a serem usados')
     parser.add_argument('-v', '--verbose', action='store_true',
