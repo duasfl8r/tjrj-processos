@@ -1,0 +1,54 @@
+# TJRJ - Informações sobre processos do TJRJ
+
+O módulo Python `tjrj` pega informações de processos jurídicos do site do TJRJ.
+
+O programa `tjrj` é uma interface de linha de comando pra acessar essas informações.
+
+Por enquanto, a única funcionalidade implementada é a de criar um feed
+RSS dos movimentos de determinados processos.
+
+## Instalação
+
+    # python setup.py install
+
+Isso instalará tanto o módulo Python quanto o programa de linha de comando.
+
+Para usar o módulo:
+
+    import tjrj
+
+Para executar o programa:
+
+    $ tjrj --help
+
+## Configuração
+
+O programa lê configurações no arquivo `~/.tjrj-processos`, ou no
+arquivo especificado pela opção `--config`.
+
+O arquivo de configuração deve ter o seguinte formato:
+    
+    [DEFAULT]
+    diretorio_feeds = /home/lucastx/feeds
+
+    [Telemar]
+
+    numero = 0007765-23.2011.8.19.0037
+
+    [Banco do Brasil]
+
+    numero = 0007764-38.2011.8.19.0037
+
+Na seção `[DEFAULT]`, é definido o diretório onde serão salvos os arquivos
+feed (essa opção pode ser sobreposta em cada processo específico, mas pra quê?)
+
+Cada outra seção representa um processo. O nome da seção vira o nome do
+processo, e 'numero'... é o número do processo (quem diria!).
+
+## Feeds
+
+Para gerar feeds dos processos:
+
+    $ tjrj salvar-feeds [--config ARQUIVO]
+
+O arquivo será nomeado com o número do processo, extensão `.xml`.
