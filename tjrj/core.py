@@ -5,7 +5,11 @@ import sys
 import re
 import datetime
 import codecs
-from urllib.parse import urlparse, parse_qs
+
+try:
+    from urllib.parse import urlparse, parse_qs
+except ImportError:
+    from urlparse import urlparse, parse_qs
 
 import requests
 
@@ -23,7 +27,8 @@ class Movimento():
     def __unicode__(self):
         return self.__str__()
 
-    def from_dict(mov_dict):
+    @classmethod
+    def from_dict(cls, mov_dict):
         """Transforma o dicionário `mov_dict` em um objeto `Movimento`.
 
         Tenta extrair o tipo de movimento e uma data.
@@ -88,7 +93,8 @@ class Processo():
 
     def fetch_movimentos(self):
         req_consulta = requests.get(self.url)
-        outro_numero = parse_qs(urlparse(req_consulta.url).query)['numProcesso'][0]
+        url_query = parse_qs(urlparse(req_consulta.url).query)
+        outro_numero = url_query['numProcesso'][0]
         url_todos = Processo._URL_TODOS.format(numero=outro_numero)
         html = requests.get(url_todos).content
 
