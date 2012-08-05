@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+    <title>Processo: {{ processo.numero}}</title>
+
+</head>
+<body>
+    <h1>Processo: {{ processo.numero}}</h1>
+
+    <a href="feed">Feed Atom</a>
+
+    <h2>Movimentos:</h2>
+
+    <ul>
+        {% for movimento in processo.movimentos %}
+            <li><strong>Data:</strong> {{ movimento.data }}</li>
+            <li> <strong>Tipo:</strong> {{ movimento.tipo }} </li>
+            <li> <strong>Outros:</strong> {{ movimento.outros }} </li>
+        {% endfor %}
+    </ul>
+        
+    </body>
+</html>
