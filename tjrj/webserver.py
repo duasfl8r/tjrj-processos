@@ -18,7 +18,7 @@ def processo_feed(numero):
 @app.route('/<numero>/')
 def processo(numero):
     processo = Processo(numero)
-    template = env.get_template("web.html")
+    template = env.get_template("web/processo.html")
 
     return Response(template.render(processo=processo))
 
