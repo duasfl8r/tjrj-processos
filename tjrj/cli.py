@@ -7,7 +7,7 @@ import sys
 import argparse
 import configparser
 
-from tjrj import Processo, feed
+from tjrj import Processo, feed, webserver
 
 verbose = False
 
@@ -37,7 +37,7 @@ def _get_config(path):
 
     return config
 
-def run():
+def run(argv):
     global verbose
 
     parser = argparse.ArgumentParser(description='Exibe informações sobre processos jurídicos do TJRJ')
@@ -52,7 +52,10 @@ def run():
     parse_feed.add_argument('-d', '--diretorio',
             help='Diretório onde serão colocados os arquivos XML (sobrepõe o arquivo de configuração')
 
-    args = parser.parse_args(sys.argv[1:])
+    parse_feed = subparsers.add_parser('webserver', help='Inicia um servidor web que serve feeds de processos')
+    parse_feed.set_defaults(func=webserver.run)
+
+    args = parser.parse_args(argv)
 
     if args.verbose:
         verbose = True
@@ -60,4 +63,4 @@ def run():
     args.func(args)
 
 if __name__ == '__main__':
-    run(sys.argv)
+    run(sys.argv[1:])
