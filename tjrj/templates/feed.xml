@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[{{ processo.nome }}]]></title>
-  <link href="{{ processo.url }}/"/>
+  <link href="{{ processo.url }}"/>
   <updated>{{ agora }}</updated>
   <id>{{ processo.numero }}</id>
   <author>
