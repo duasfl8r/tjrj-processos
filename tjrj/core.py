@@ -51,6 +51,12 @@ class Movimento():
             tipo = mov_dict["Tipo do Movimento:"]
             del mov_dict["Tipo do Movimento:"]
 
+        for k, v in mov_dict.items():
+            if k and k[-1] == ":":
+                del mov_dict[k]
+                k = k[:-1]
+                mov_dict[k] = v
+
         return Movimento(tipo, data, mov_dict)
 
 class Processo():
