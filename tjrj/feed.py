@@ -3,6 +3,7 @@
 
 import os
 import datetime
+import codecs
 
 import jinja2
 
@@ -15,5 +16,5 @@ def gerar(processo):
 def salvar(processo, diretorio):
     xml = gerar(processo)
 
-    arquivo = open(os.path.join(diretorio, processo.numero + ".xml"), "w")
+    arquivo = codecs.open(os.path.join(diretorio, processo.numero + ".xml"), "w", encoding="utf-8")
     arquivo.write(xml)

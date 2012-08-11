@@ -4,8 +4,12 @@
 import os
 import sys
 
+import codecs
 import argparse
-import configparser
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
 
 from tjrj import Processo, feed, webserver
 
@@ -22,9 +26,9 @@ def _salvar_feeds(args):
     config = _get_config(args.config)
 
     for section in config.sections():
-        p = Processo(numero=config[section]['numero'], nome=section)
+        p = Processo(numero=config.get(section, 'numero'), nome=section)
         info('Gerando feed: {nome} ({numero})'.format(**vars(p)))
-        dir = args.diretorio if args.diretorio else config[section]['diretorio_feeds']
+        dir = args.diretorio if args.diretorio else config.get(section, 'diretorio_feeds')
         feed.salvar(p, dir)
 
 def _get_config(path):
@@ -33,7 +37,7 @@ def _get_config(path):
         exit(1)
 
     config = configparser.ConfigParser()
-    config.read(path)
+    config.readfp(codecs.open(path, encoding="utf-8"))
 
     return config
 
