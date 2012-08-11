@@ -1,6 +1,31 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
+# Author: Lucas Teixeira <lucas@lucasteixeira.com>
+# Copyright: MIT License
+
+"""
+Processos jurídicos do TJRJ e seus movimentos.
+
+Classes definidas:
+
+- `Processo`, um processo jurídico
+- `Movimento`, um movimento dentro de um processo
+
+Como usar esse módulo
+=====================
+
+1. Importe a classe `Processo`.
+
+2. Crie um objeto de processo fornecendo seu número e opcionalmente um nome::
+
+        p = Processo("0007765-23.2011.8.19.0037", "Telemar")
+
+   Ao criar o objeto, ele automaticamente buscará os movimentos na Web. Para impedir esse comportamento, passe `fetch=True`. Posteriormente, os movimentos podem ser baixados através do método `Processo.fetch_movimentos()`
+
+3. A lista de  movimentos podem ser acessada pelo atributo `p.movimentos`.
+"""
+
 import sys
 import re
 import datetime
@@ -16,6 +41,18 @@ import requests
 from tjrj import scraping
 
 class Movimento():
+    
+    """
+    Um movimento de um processo jurídico do TJRJ.
+
+    Cada movimento tem os atributos:
+
+    - `tipo`: uma string com o tipo de movimento
+    - `data`: um objeto `datetime.datetime` com a data do movimento
+    - `outros`: um dicionário contendo outras informações específicas de
+      cada tipo de movimento.
+    """
+
     def __init__(self, tipo, data, outros):
         self.tipo = tipo
         self.data = data
@@ -29,7 +66,8 @@ class Movimento():
 
     @classmethod
     def from_dict(cls, mov_dict):
-        """Transforma o dicionário `mov_dict` em um objeto `Movimento`.
+        """
+        Transforma o dicionário `mov_dict` em um objeto `Movimento`.
 
         Tenta extrair o tipo de movimento e uma data.
         """
@@ -60,7 +98,8 @@ class Movimento():
         return Movimento(tipo, data, mov_dict)
 
 class Processo():
-    """Representa um processo jurídico do TJRJ.
+    """
+    Representa um processo jurídico do TJRJ.
 
     Atributos:
 
@@ -70,24 +109,32 @@ class Processo():
     """
 
     _URL_CONSULTA = "http://srv85.tjrj.jus.br/numeracaoUnica/faces/index.jsp?numProcesso={numero}"
-    """URL pra consulta do processo. Mostra os últimos movimentos.
+    """
+    URL pra consulta do processo. Mostra os últimos movimentos.
 
     Essa URL nos redireciona para outra página, usando um *novo número*
-    de processo, provavelmente relacionado com o número original do processo.
+    de processo, relacionado com o número original do processo de alguma
+    maneira misteriosa.
     """
 
     _URL_TODOS = "http://srv85.tjrj.jus.br/consultaProcessoWebV2/consultaMov.do?v=2&numProcesso={numero}&acessoIP=internet"
-    """URL pra ver todos os movimentos do processo.
+    """
+    URL pra ver todos os movimentos do processo.
 
     `numProcesso` é um número *diferente* do da `_URL_CONSULTA`.
     """
 
     def __init__(self, numero, nome=None, fetch=True):
-        """Inicializa o processo e busca seus movimentos na web.
+        """
+        Inicializa o processo e busca seus movimentos na web.
 
         Argumentos:
 
         - `numero`: o número do processo.
+        - `nome`: o nome dado ao processo. Se esse argumento não for
+          passado, o nome do processo é igual ao seu número.
+        - `fetch`: se `True`, baixa automaticamente os movimentos da
+          Web.
         """
 
         self.numero = numero
@@ -98,6 +145,14 @@ class Processo():
             self.fetch_movimentos()
 
     def fetch_movimentos(self):
+        """
+        Baixa os movimentos da página Web do processo e armazena no
+        objeto `movimentos`.
+
+        Usa o módulo `tjrj.scraping` pra fazer o "parsing" do HTML e
+        extrair os movimentos.
+        """
+
         req_consulta = requests.get(self.url)
         url_query = parse_qs(urlparse(req_consulta.url).query)
         outro_numero = url_query['numProcesso'][0]
@@ -109,8 +164,3 @@ class Processo():
         mov_dicts = scraping.parse_html(html)
 
         self.movimentos = list(map(Movimento.from_dict, mov_dicts))
-
-if __name__ == "__main__":
-    p = Processo(sys.argv[1])
-    feed = p.gerar_feed()
-    print(feed)
