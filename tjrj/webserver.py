@@ -1,5 +1,5 @@
-# -*- encoding: utf-8 -*-
-from flask import Flask, Response
+#u-*- encoding: utf-8 -*-
+from flask import Flask, Response, request, redirect, url_for
 import jinja2
 from tjrj import Processo, feed
 
@@ -7,8 +7,17 @@ env = jinja2.Environment(loader=jinja2.PackageLoader('tjrj', 'templates'))
 app = Flask(__name__)
 
 @app.route('/')
-def ola_mundo():
-    return 'Olá, mundo!'
+def index():
+    if request.method == 'GET' and request.args:
+        if request.args['submit'] == 'Feed':
+            return redirect(url_for('processo_feed',
+                numero=request.args['numeroProcesso']))
+        else:
+            return redirect(url_for('processo',
+                numero=request.args['numeroProcesso']))
+    else:
+        template = env.get_template("web/index.html")
+        return Response(template.render())
 
 @app.route('/<numero>/feed')
 def processo_feed(numero):
