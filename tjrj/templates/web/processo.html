@@ -14,9 +14,19 @@
 
     <ul>
         {% for movimento in processo.movimentos %}
-            <li><strong>Data:</strong> {{ movimento.data }}</li>
-            <li> <strong>Tipo:</strong> {{ movimento.tipo }} </li>
-            <li> <strong>Outros:</strong> {{ movimento.outros }} </li>
+        <li><strong>{{ movimento.data.strftime('%d/%m/%Y') }} - {{ movimento.tipo }}</strong></li>
+            {% if movimento.outros %}
+                <ul>
+                    {% for k, v in movimento.outros.items() %}
+                    <li>
+                        {% if k %}
+                        <strong>{{ k }}</strong>: 
+                        {% endif %}
+                        {{ v }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         {% endfor %}
     </ul>
         
