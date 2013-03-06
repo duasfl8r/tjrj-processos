@@ -1,6 +1,3 @@
 - Documentar código
 - Usar módulo logging
-- Servidor web que gere os feeds automaticamente:
-    - /feed/<num_processo>: analisa a página do TJRJ e cria o feed, na
-      hora.
 - Conteúdo dos itens do feed melhor formatados
