@@ -11,15 +11,7 @@ RSS dos movimentos de determinados processos.
 
     # python setup.py install
 
-Isso instalará tanto o módulo Python quanto o programa de linha de comando.
-
-Para usar o módulo:
-
-    import tjrj
-
-Para executar o programa:
-
-    $ tjrj --help
+Isso instalará tanto o módulo Python quanto os programas de linha de comando.
 
 ## Configuração
 
@@ -45,10 +37,28 @@ feed (essa opção pode ser sobreposta em cada processo específico, mas pra qu�
 Cada outra seção representa um processo. O nome da seção vira o nome do
 processo, e 'numero'... é o número do processo (quem diria!).
 
-## Feeds
+## Usando
+
+Para usar o módulo:
+
+    import tjrj
+
+Para executar o programa:
+
+    $ tjrj --help
+
+### Feeds
 
 Para gerar feeds dos processos:
 
     $ tjrj salvar-feeds [--config ARQUIVO]
 
 O arquivo será nomeado com o número do processo, extensão `.xml`.
+
+### Webserver
+
+    $ tjrj webserver [--port PORTA]
+
+O servidor web pode exibir os últimos movimentos de um processo
+diretamente no navegador, em HTML, ou gerar um feed pra ser inscrito em
+um leitor de RSS.
