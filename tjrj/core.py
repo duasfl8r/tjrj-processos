@@ -144,6 +144,9 @@ class Processo():
         if fetch:
             self.fetch_movimentos()
 
+    def __str__(self):
+        return u"{nome} - {numero}".format(**vars(self))
+
     def fetch_movimentos(self):
         """
         Baixa os movimentos da página Web do processo e armazena no
