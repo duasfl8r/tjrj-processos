@@ -117,7 +117,7 @@ class Processo():
     maneira misteriosa.
     """
 
-    _URL_TODOS = "http://srv85.tjrj.jus.br/consultaProcessoWebV2/consultaMov.do?v=2&numProcesso={numero}&acessoIP=internet"
+    _URL_TODOS = "http://www4.tjrj.jus.br/consultaProcessoWebV2/consultaProc.do?v=2&FLAGNOME=&back=1&tipoConsulta=publica&numProcesso={numero}"
     """
     URL pra ver todos os movimentos do processo.
 
