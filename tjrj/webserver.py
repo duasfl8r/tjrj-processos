@@ -1,10 +1,17 @@
 #u-*- encoding: utf-8 -*-
+import logging
+
 from flask import Flask, Response, request, redirect, url_for
 import jinja2
 from tjrj import Processo, feed
 
 env = jinja2.Environment(loader=jinja2.PackageLoader('tjrj', 'templates'))
 app = Flask(__name__)
+
+file_handler = logging.FileHandler("webserver.log", encoding="utf-8")
+app.logger.addHandler(file_handler)
+console_handler = logging.StreamHandler()
+app.logger.addHandler(console_handler)
 
 @app.route('/')
 def index():
