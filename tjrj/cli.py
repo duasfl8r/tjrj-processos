@@ -31,6 +31,9 @@ def _salvar_feeds(args):
         dir = args.diretorio if args.diretorio else config.get(section, 'diretorio_feeds')
         feed.salvar(p, dir)
 
+def _webserver(args):
+    webserver.app.run(host='127.0.0.1', port=int(args.port), debug=True)
+
 def _get_config(path):
     if os.path.isdir(path):
         error('O arquivo de configuração {path} é um diretório.'.format(**vars()))
@@ -60,7 +63,9 @@ def run(argv=None):
             help='Diretório onde serão colocados os arquivos XML (sobrepõe o arquivo de configuração')
 
     parse_feed = subparsers.add_parser('webserver', help='Inicia um servidor web que serve feeds de processos')
-    parse_feed.set_defaults(func=webserver.run)
+    parse_feed.add_argument('-p', '--port', default="5000",
+            help='Porta onde o servidor web escutará')
+    parse_feed.set_defaults(func=_webserver)
 
     args = parser.parse_args(argv)
 

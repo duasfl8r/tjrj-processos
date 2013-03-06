@@ -38,8 +38,5 @@ def processo(numero):
 
     return Response(template.render(processo=processo))
 
-def run(*args, **kwargs):
-    app.run(debug=True)
-
 if __name__ == '__main__':
     run()
