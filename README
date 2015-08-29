@@ -1,5 +1,10 @@
 # TJRJ - Informações sobre processos do TJRJ
 
+**ATENÇÃO:**
+parei de desenvolver esse software quando o TJRJ alterou o sistema (colocando captchas). O processo pelo qual me interessava ficou inativo e perdi o interesse em continuar. Não tenho absolutamente nenhum relacionamento com o TJRJ.
+
+---
+
 O módulo Python `tjrj` pega informações de processos jurídicos do site do TJRJ.
 
 O programa `tjrj` é uma interface de linha de comando pra acessar essas informações.
